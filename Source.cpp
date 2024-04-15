@@ -31,15 +31,21 @@ int main()
 void ViewStudentGrades(string &subj)
 {
 	string grades;
-	string GradeFile = subj + " Grades.txt";
-	ifstream GradeFile();
+	string GradeFileName = subj + " Grades.txt";
+	ifstream GradeFile(GradeFileName);
 	if (!GradeFile.is_open())
 	{
 		cout << "Trouble with opening the file." << endl;
 	}
-	while (getline(GradeFile, grades))
+	else
 	{
-		cout << "\t Student Grades in \t" << subj << endl;
-		cout << "---------------------------------------" << endl;
+		while (!GradeFile.eof())
+		{
+			std::getline(GradeFile, grades);
+			cout << "\t Student Grades in \t" << subj << endl;
+			cout << "---------------------------------------" << endl;
+			cout << grades << endl;
+		}
+		GradeFile.close();
 	}
 }
