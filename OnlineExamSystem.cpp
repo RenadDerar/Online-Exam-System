@@ -6,7 +6,7 @@ using namespace std;
 struct choice
 {
     string choiceText;
-    bool isCorrect;
+    bool isCorrect = false;
 };
 
 struct question
@@ -15,27 +15,65 @@ struct question
     choice questionAnswer[4];
 };
 
-int questionIndex = 0;
+//question indicies 
+int englishQuestionIndex = 0;
+int mathQuestionIndex = 0;
+int biologyQuestionIndex = 0;
+int chemistryQuestionIndex = 0;
+int physicsQuestionIndex = 0;
+
+struct teacher
+{
+    string username, password, CourseCode;
+}arrTC[5];
+
 
 // Database for all questions
-question englishQuestionList[10];
-question mathQuestionList[10];
-question biologyQuestionList[10];
-question chemistryQuestionList[10];
-question physicsQuestionList[10];
+question *englishQuestionList= new question;
+question *mathQuestionList = new question;
+question *biologyQuestionList = new question;
+question *chemistryQuestionList = new question;
+question *physicsQuestionList = new question;
 
-void createQuestion();
+
+
+void createQuestion(question*questionBank, int index);
 
 int main()
-{}
+{  // this will be in the menu that the teacher sees AS AN EXAMPLE
+    cout << " Press 1 if you want to create a new question!\n";
+    // presses 1
+    if (arrTC[5].CourseCode == "E266")
+        createQuestion(englishQuestionList, englishQuestionIndex);
+    else if (arrTC[5].CourseCode == "M161")
+        createQuestion(mathQuestionList, mathQuestionIndex);
+    else if (arrTC[5].CourseCode == "B859")
+    createQuestion(biologyQuestionList, biologyQuestionIndex);
+    else if (arrTC[5].CourseCode == "C602")
+    createQuestion(chemistryQuestionList, chemistryQuestionIndex);
+    else if (arrTC[5].CourseCode == "P667");
+    createQuestion(physicsQuestionList, physicsQuestionIndex);
 
-void createQuestion()
+    //deallocating the arrays;
+    {
+        delete[] englishQuestionList;
+        englishQuestionList = NULL;
+        delete[] mathQuestionList;
+        mathQuestionList = NULL;
+        delete[] biologyQuestionList;
+       biologyQuestionList = NULL;
+        delete[] chemistryQuestionList;
+        chemistryQuestionList = NULL;
+        delete[] physicsQuestionList;
+       physicsQuestionList = NULL;
+    }
+
+}
+
+void createQuestion(question* questiontype, int index)
 {
-    // Switch case to see which subject is to be used not yet included
-    // For example, I'm choosing English
-
     cout << "Please enter your question: \n";
-    getline(cin, englishQuestionList[questionIndex].questionText);
+    getline(cin, questiontype[index].questionText);
     // Using getline to input the full sentence instead of only one word
 
     // For loop for entering choices
@@ -43,30 +81,33 @@ void createQuestion()
     {
         char option;
         cout << "Please enter choice " << i + 1 << endl;
-        getline(cin, englishQuestionList[questionIndex].questionAnswer[i].choiceText);
+        getline(cin, questiontype[index].questionAnswer[i].choiceText);
         cin.ignore();
         // To ignore the extra character added by the 'enter key'
 
+        questiontype[index].questionAnswer[i].isCorrect = false;
+
         do
         {
-            cout << "T/F?";
+            cout << "T/F? (any true will automatically set all the rest to false!) \n";
             cin >> option;
             cin.ignore();
             // Same thing here
-
-            if (option == 'T' || option == 't')
+            if (option == 'F' || option == 'f')
             {
-                englishQuestionList[questionIndex].questionAnswer[i].isCorrect = true;
+                questiontype[index].questionAnswer[i].isCorrect = false;
                 break;
             }
-            else if (option == 'F' || option == 'f')
+            else if (option == 'T' || option == 't')
             {
-                englishQuestionList[questionIndex].questionAnswer[i].isCorrect = false;
+                questiontype[index].questionAnswer[i].isCorrect = true;
+                i = 4;
+                // to exit the loop immediately
                 break;
             }
             else
                 cout << "Error! Please enter a valid choice! \n";
         } while (true);
     }
-    questionIndex++;
+index++;
 }
