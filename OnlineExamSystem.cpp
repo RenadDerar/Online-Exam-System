@@ -38,20 +38,20 @@ question *physicsQuestionList = new question;
 
 
 void createQuestion(question*questionBank, int index);
-
+int currentTeacher = 0;
 int main()
 {  // this will be in the menu that the teacher sees AS AN EXAMPLE
     cout << " Press 1 if you want to create a new question!\n";
     // presses 1
-    if (arrTC[5].CourseCode == "E266")
+    if (arrTC[currentTeacher].CourseCode == "E266")
         createQuestion(englishQuestionList, englishQuestionIndex);
-    else if (arrTC[5].CourseCode == "M161")
+    else if (arrTC[currentTeacher].CourseCode == "M161")
         createQuestion(mathQuestionList, mathQuestionIndex);
-    else if (arrTC[5].CourseCode == "B859")
+    else if (arrTC[currentTeacher].CourseCode == "B859")
     createQuestion(biologyQuestionList, biologyQuestionIndex);
-    else if (arrTC[5].CourseCode == "C602")
+    else if (arrTC[currentTeacher].CourseCode == "C602")
     createQuestion(chemistryQuestionList, chemistryQuestionIndex);
-    else if (arrTC[5].CourseCode == "P667");
+    else if (arrTC[currentTeacher].CourseCode == "P667");
     createQuestion(physicsQuestionList, physicsQuestionIndex);
 
     //deallocating the arrays;
