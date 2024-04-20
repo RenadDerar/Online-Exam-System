@@ -6,7 +6,7 @@ using namespace std;
 struct choice
 {
     string choiceText;
-    bool isCorrect = false;
+    bool isCorrect= false;
 };
 
 struct question
@@ -26,7 +26,7 @@ struct teacher
 {
     string username, password, CourseCode;
 }arrTC[5];
-
+ 
 
 // Database for all questions
 question *englishQuestionList= new question;
@@ -43,16 +43,16 @@ int main()
 {  // this will be in the menu that the teacher sees AS AN EXAMPLE
     cout << " Press 1 if you want to create a new question!\n";
     // presses 1
-    if (arrTC[currentTeacher].CourseCode == "E266")
+    //if (arrTC[currentTeacher].CourseCode == "E266")
         createQuestion(englishQuestionList, englishQuestionIndex);
-    else if (arrTC[currentTeacher].CourseCode == "M161")
-        createQuestion(mathQuestionList, mathQuestionIndex);
-    else if (arrTC[currentTeacher].CourseCode == "B859")
-    createQuestion(biologyQuestionList, biologyQuestionIndex);
-    else if (arrTC[currentTeacher].CourseCode == "C602")
-    createQuestion(chemistryQuestionList, chemistryQuestionIndex);
-    else if (arrTC[currentTeacher].CourseCode == "P667");
-    createQuestion(physicsQuestionList, physicsQuestionIndex);
+    //else if (arrTC[currentTeacher].CourseCode == "M161")
+    //    createQuestion(mathQuestionList, mathQuestionIndex);
+    //else if (arrTC[currentTeacher].CourseCode == "B859")
+    //createQuestion(biologyQuestionList, biologyQuestionIndex);
+    //else if (arrTC[currentTeacher].CourseCode == "C602")
+    //createQuestion(chemistryQuestionList, chemistryQuestionIndex);
+    //else if (arrTC[currentTeacher].CourseCode == "P667")
+    //createQuestion(physicsQuestionList, physicsQuestionIndex);
 
     //deallocating the arrays;
     {
@@ -67,6 +67,7 @@ int main()
         delete[] physicsQuestionList;
        physicsQuestionList = NULL;
     }
+    return 0;
 
 }
 
@@ -79,35 +80,30 @@ void createQuestion(question* questiontype, int index)
     // For loop for entering choices
     for (int i = 0; i < 4; i++)
     {
-        char option;
+      
+
         cout << "Please enter choice " << i + 1 << endl;
         getline(cin, questiontype[index].questionAnswer[i].choiceText);
         cin.ignore();
         // To ignore the extra character added by the 'enter key'
-
         questiontype[index].questionAnswer[i].isCorrect = false;
-
-        do
-        {
-            cout << "T/F? (any true will automatically set all the rest to false!) \n";
-            cin >> option;
-            cin.ignore();
-            // Same thing here
-            if (option == 'F' || option == 'f')
-            {
-                questiontype[index].questionAnswer[i].isCorrect = false;
-                break;
-            }
-            else if (option == 'T' || option == 't')
-            {
-                questiontype[index].questionAnswer[i].isCorrect = true;
-                i = 4;
-                // to exit the loop immediately
-                break;
-            }
-            else
-                cout << "Error! Please enter a valid choice! \n";
-        } while (true);
     }
-index++;
+
+    int correctChoice;
+
+    cout << "Which choice is the correct choice? Please enter the number in order (From 1 to 4): \n";
+    cin >> correctChoice;
+    questiontype[index].questionAnswer[correctChoice-1].isCorrect = true;
+    index++;
+
+    ////////////////////////////////////////////// to check
+    cout << "\nVerification for the created question:\n";
+    cout << questiontype[index - 1].questionText << endl; // Access the question at the current index
+
+    for (int i = 0; i < 4; i++) 
+    {
+        cout << "  - " << questiontype[index - 1].questionAnswer[i].choiceText << endl;
+        if (questiontype[index - 1].questionAnswer[i].isCorrect)
+            cout << "    (Correct Answer)" << endl; // Mark the correct answer
+    }
 }
