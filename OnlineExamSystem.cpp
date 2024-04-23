@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-// For using the getline function
+
 using namespace std;
 
 struct choice
@@ -9,12 +9,29 @@ struct choice
     string choiceText;
     bool isCorrect= false;
 };
-
 struct question
 {
     string questionText;
     choice questionAnswer[4];
 };
+
+
+struct subject
+{
+    string CourseCode;
+    float grade;
+}arrSJ[5];
+struct teacher
+{
+    string username, password, CourseCode;
+}arrTC[5];
+struct student
+{
+    string username, password;
+    int ID;
+    subject subj;
+}arrSD[10];
+ 
 
 //question indicies 
 int englishQuestionIndex = 3;
@@ -23,13 +40,8 @@ int biologyQuestionIndex = 3;
 int chemistryQuestionIndex = 3;
 int physicsQuestionIndex = 3;
 
-struct teacher
-{
-    string username, password, CourseCode;
-}arrTC[5];
- 
+//question arrays
 const int ARRAYSIZE = 10;
-
 question englishQuestionList[ARRAYSIZE];
 question mathQuestionList[ARRAYSIZE];
 question biologyQuestionList[ARRAYSIZE];
@@ -37,10 +49,9 @@ question chemistryQuestionList[ARRAYSIZE];
 question physicsQuestionList[ARRAYSIZE];
 
 
-
-
-
 void createQuestion(question questionBank[], int index);
+void ViewStudentGrades(string& subj);
+
 int currentTeacher = 0;
 int main()
 
@@ -147,4 +158,25 @@ void createQuestion(question questiontype[], int index)
     cin >> correctChoice;
     questiontype[index].questionAnswer[correctChoice-1].isCorrect = true;
     index++;
+}
+void ViewStudentGrades(string& subj)
+{
+    string grades;
+    string GradeFileName = subj + " Grades.txt";
+    ifstream GradeFile(GradeFileName);
+    if (!GradeFile.is_open())
+    {
+        cout << "Trouble with opening the file." << endl;
+    }
+    else
+    {
+        while (!GradeFile.eof())
+        {
+            std::getline(GradeFile, grades);
+            cout << "\t Student Grades in \t" << subj << endl;
+            cout << "---------------------------------------" << endl;
+            cout << grades << endl;
+        }
+        GradeFile.close();
+    }
 }
