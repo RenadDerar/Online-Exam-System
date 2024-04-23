@@ -45,22 +45,12 @@ int currentTeacher = 0;
 int main()
 {  // this will be in the menu that the teacher sees AS AN EXAMPLE
    // cout << " Press 1 if you want to create a new question!\n";
-    // presses 1
-    if (arrTC[currentTeacher].CourseCode == "E266")
-     createQuestion(englishQuestionList, englishQuestionIndex);
-    else if (arrTC[currentTeacher].CourseCode == "M161")
-        createQuestion(mathQuestionList, mathQuestionIndex);
-    else if (arrTC[currentTeacher].CourseCode == "B859")
-    createQuestion(biologyQuestionList, biologyQuestionIndex);
-    else if (arrTC[currentTeacher].CourseCode == "C602")
-    createQuestion(chemistryQuestionList, chemistryQuestionIndex);
-    else if (arrTC[currentTeacher].CourseCode == "P667")
-    createQuestion(physicsQuestionList, physicsQuestionIndex);
+    
 
     ifstream questionFile("questionsList.txt");
     //loading from file pre-existing questions
     //english
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 3; i++)
         {
             getline(questionFile, englishQuestionList[i].questionText);
 
@@ -71,7 +61,7 @@ int main()
             }
         }
         //math
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 3; i++)
         {
             getline(questionFile, mathQuestionList[i].questionText);
 
@@ -82,7 +72,7 @@ int main()
             }
         }
         //chemistry
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 3; i++)
         {
             getline(questionFile, chemistryQuestionList[i].questionText);
 
@@ -93,7 +83,7 @@ int main()
             }
         }
         //physics
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 3; i++)
         {
             getline(questionFile, physicsQuestionList[i].questionText);
 
@@ -104,7 +94,7 @@ int main()
             }
         }
         //biology
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 3; i++)
         {
             getline(questionFile, biologyQuestionList[i].questionText);
 
@@ -115,25 +105,6 @@ int main()
             }
         }
     
-
-    for (int i = 0; i < 10; i++)
-    {
-        cout << englishQuestionList[i].questionText << endl;
-        for (int j = 0; j < 10; j++)
-            cout << englishQuestionList[i].questionAnswer[j].choiceText <<endl;
-    }
-
-
-
-
-
-
-
-
-
-
-
-
 
     return 0;
 
