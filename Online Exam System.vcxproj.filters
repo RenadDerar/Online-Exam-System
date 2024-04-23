@@ -15,15 +15,17 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="OnlineExamSystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
+<ClCompile Include="OnlineExamSystem.cpp">
+    <Filter>Source Files</Filter>
+</ClCompile>
+<ClCompile Include="Source.cpp">
+    <Filter>Resource Files</Filter>
+</ClCompile>
+<ItemGroup>
     <None Include=".gitattributes" />
     <None Include=".gitignore" />
-  </ItemGroup>
-  <ItemGroup>
+</ItemGroup>
+<ItemGroup>
     <Text Include="questionsList.txt" />
-  </ItemGroup>
+</ItemGroup>
 </Project>
