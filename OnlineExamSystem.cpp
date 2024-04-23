@@ -17,11 +17,11 @@ struct question
 };
 
 //question indicies 
-int englishQuestionIndex = 0;
-int mathQuestionIndex = 0;
-int biologyQuestionIndex = 0;
-int chemistryQuestionIndex = 0;
-int physicsQuestionIndex = 0;
+int englishQuestionIndex = 3;
+int mathQuestionIndex = 3;
+int biologyQuestionIndex = 3;
+int chemistryQuestionIndex = 3;
+int physicsQuestionIndex = 3;
 
 struct teacher
 {
@@ -40,70 +40,83 @@ question physicsQuestionList[ARRAYSIZE];
 
 
 
-void createQuestion(question*questionBank, int index);
+void createQuestion(question questionBank[], int index);
 int currentTeacher = 0;
 int main()
-{  // this will be in the menu that the teacher sees AS AN EXAMPLE
-   // cout << " Press 1 if you want to create a new question!\n";
-    
 
+{ 
+    /* first thing in main, loading from file pre - existing questions
+english*/
     ifstream questionFile("questionsList.txt");
-    //loading from file pre-existing questions
-    //english
-        for (int i = 0; i < 3; i++)
+    for (int i = 0; i < 3; i++)
+    {
+        getline(questionFile, englishQuestionList[i].questionText);
+
+
+        for (int j = 0; j < 4; j++)
         {
-            getline(questionFile, englishQuestionList[i].questionText);
-
-
-            for (int j = 0; j < 4; j++)
-            {
-                getline(questionFile, englishQuestionList[i].questionAnswer[j].choiceText);
-            }
+            getline(questionFile, englishQuestionList[i].questionAnswer[j].choiceText);
         }
-        //math
-        for (int i = 0; i < 3; i++)
+    }
+    //math
+    for (int i = 0; i < 3; i++)
+    {
+        getline(questionFile, mathQuestionList[i].questionText);
+
+
+        for (int j = 0; j < 4; j++)
         {
-            getline(questionFile, mathQuestionList[i].questionText);
-
-
-            for (int j = 0; j < 4; j++)
-            {
-                getline(questionFile, mathQuestionList[i].questionAnswer[j].choiceText);
-            }
+            getline(questionFile, mathQuestionList[i].questionAnswer[j].choiceText);
         }
-        //chemistry
-        for (int i = 0; i < 3; i++)
+    }
+    //chemistry
+    for (int i = 0; i < 3; i++)
+    {
+        getline(questionFile, chemistryQuestionList[i].questionText);
+
+
+        for (int j = 0; j < 4; j++)
         {
-            getline(questionFile, chemistryQuestionList[i].questionText);
-
-
-            for (int j = 0; j < 4; j++)
-            {
-                getline(questionFile, chemistryQuestionList[i].questionAnswer[j].choiceText);
-            }
+            getline(questionFile, chemistryQuestionList[i].questionAnswer[j].choiceText);
         }
-        //physics
-        for (int i = 0; i < 3; i++)
+    }
+    //physics
+    for (int i = 0; i < 3; i++)
+    {
+        getline(questionFile, physicsQuestionList[i].questionText);
+
+
+        for (int j = 0; j < 4; j++)
         {
-            getline(questionFile, physicsQuestionList[i].questionText);
-
-
-            for (int j = 0; j < 4; j++)
-            {
-                getline(questionFile, physicsQuestionList[i].questionAnswer[j].choiceText);
-            }
+            getline(questionFile, physicsQuestionList[i].questionAnswer[j].choiceText);
         }
-        //biology
-        for (int i = 0; i < 3; i++)
+    }
+    //biology
+    for (int i = 0; i < 3; i++)
+    {
+        getline(questionFile, biologyQuestionList[i].questionText);
+
+
+        for (int j = 0; j < 4; j++)
         {
-            getline(questionFile, biologyQuestionList[i].questionText);
-
-
-            for (int j = 0; j < 4; j++)
-            {
-                getline(questionFile, biologyQuestionList[i].questionAnswer[j].choiceText);
-            }
+            getline(questionFile, biologyQuestionList[i].questionAnswer[j].choiceText);
         }
+    }
+
+    // this will be in the menu that the teacher sees AS AN EXAMPLE
+   // cout << " Press 1 if you want to create a new question!\n";
+    {
+        if (arrTC[currentTeacher].CourseCode == "E266")
+            createQuestion(englishQuestionList, englishQuestionIndex);
+        else if (arrTC[currentTeacher].CourseCode == "M161")
+            createQuestion(mathQuestionList, mathQuestionIndex);
+        else if (arrTC[currentTeacher].CourseCode == "B859")
+            createQuestion(biologyQuestionList, biologyQuestionIndex);
+        else if (arrTC[currentTeacher].CourseCode == "C602")
+            createQuestion(chemistryQuestionList, chemistryQuestionIndex);
+        else if (arrTC[currentTeacher].CourseCode == "P667")
+            createQuestion(physicsQuestionList, physicsQuestionIndex);
+    }
     
 
     return 0;
@@ -134,15 +147,4 @@ void createQuestion(question questiontype[], int index)
     cin >> correctChoice;
     questiontype[index].questionAnswer[correctChoice-1].isCorrect = true;
     index++;
-
-    ////////////////////////////////////////////// to check
-    cout << "\nVerification for the created question:\n";
-    cout << questiontype[index - 1].questionText << endl; // Access the question at the current index
-
-    for (int i = 0; i < 4; i++) 
-    {
-        cout << "  - " << questiontype[index - 1].questionAnswer[i].choiceText << endl;
-        if (questiontype[index - 1].questionAnswer[i].isCorrect)
-            cout << "    (Correct Answer)" << endl; // Mark the correct answer
-    }
 }
