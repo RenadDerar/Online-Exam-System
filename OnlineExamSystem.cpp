@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <windows.h> // for Sleep()
+#include <stdlib.h> // for the system()
 
 using namespace std;
 
@@ -52,8 +54,11 @@ question physicsQuestionList[ARRAYSIZE];
 void createQuestion(question questionBank[], int index);
 void modifyexam(question questiontype[]);
 void ViewStudentGrades(const string& ExamName);
+
 void ViewSubjectGrades(const string& subject);
 void ViewAllMyGrades(int ID);
+
+void timerFunction(int min);
 
 int teacherMenu();
 void handleChoice(int choice);
@@ -171,6 +176,12 @@ english*/
         modifyexam(chemistryQuestionList);
     else if (arrTC[currentTeacher].CourseCode == "P667")
         modifyexam(physicsQuestionList);
+    ////////////////////////////this part is to be included in createxam u guys! nada and mishkat//////////////////////////////
+    int minutes;
+
+    cout << "enter how many minutes will the exam be?" << endl;
+    cin >> minutes;
+    timerFunction(minutes);
 
 
     return 0;
@@ -432,5 +443,28 @@ void handleChoice(int choice) {
         break;
     }
 }
+void timerFunction(int min) {
+    int sec = 0;
+    int minutes = min;
+    while (true) {
+        if (min == 0 && sec == 0) {
+            break;
+        }
+        if (sec == 0) {
+            sec = 60;
+            min--;
+        }
+        system("cls");    // to stop repeating cout statement each loop iteration
+        cout << ">>>> the exam time is " << minutes << " minutes " << " <<<<" << endl;
+        cout << "time left: " << min << ":" << sec-- << endl;
+
+        Sleep(1000);     //for the speed of timer >> will get back to loop every 1000 milliseconds after printing the min and sec
+
+    }
+    cout << "time is up !" << endl;
+
+
+}
+
 
 
