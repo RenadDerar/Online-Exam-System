@@ -2,10 +2,11 @@
 #include <fstream> 
 #include <string>
 
-struct subject
+using namespace std;
+
+struct course  // i changed any mention of "subject" into "course" for consistency's sake
 {
-	string CourseCode;                                   
-	float grade;
+	string CourseCode,grades[10];                                   
 };
 struct teacher
 {
@@ -15,195 +16,248 @@ struct student
 {
 	string username, password;
 	int ID;
-	subject arrSJ[5];
+	course arrSJ[5];
 }arrSD[10];
-struct choice
-{
-	string choiceText;
-	bool isCorrect = false;
-};
-struct question
-{
-	string questionText;
-	choice questionAnswer[4];
-};
 
-void createQuestion(question* questionBank, int index);
-void ViewStudentGrades(const string &ExamName);
-void ViewSubjectGrades(const string &subject);
+void ViewStudentGrades(string& ExamFileName);
+void ViewCourseGrades(int ID, string& CourseCode);
+void SaveCourseGrades(int ID, string& CourseCode, string& content);
 void ViewAllMyGrades(int ID);
-
-//question indicies 
-int englishQuestionIndex = 0;
-int mathQuestionIndex = 0;
-int biologyQuestionIndex = 0;
-int chemistryQuestionIndex = 0;
-int physicsQuestionIndex = 0;
-
-// Database for all questions
-question* englishQuestionList = new question;
-question* mathQuestionList = new question;
-question* biologyQuestionList = new question;
-question* chemistryQuestionList = new question;
-question* physicsQuestionList = new question;
-
-using namespace std;
+void SaveAlMyGrades(int ID, string& content);
 
 int main()
-{
-    // when a teacher wants to see their students grades
+{   
+    // When a teacher wants to see their students grades
     string ExamFileName;
     cout << "What is the name of the exam file you want to see the grades of: ";
     cin >> ExamFileName;
 
-    // when a student wants to see their grades in a specific subject
     int ID;
-    string subject;
-    cout << "What subject do you want to see the grades of: ";
-    cin >> subject;
-    cout << "Please enter your ID for conformation:";
+    string CourseCode;
+    // when a student wants to see the grades of a specific course they've chosen
+    cout << "Enter the following information for confirmation: " << endl;
+    cout << "ID: ";
+    cin >> ID;
+    cout << "Course code: ";
+    cin >> CourseCode;
+
+    // When a student wants to see all of their grades
+    cout << "Please enter your ID for confirmation:";
     cin >> ID;
 
-    // when a student wants to see all of their grades
-    cout << "Please enter your ID for conformation:";
-    cin >> ID;
 	return 0;
 }
 
-// a function for the teacher to create new queestions for their exams
-void createQuestion(question* questionBank, int index)
-{
-    cout << "Please enter your question: \n";
-    getline(cin, questiontype[index].questionText);
-    // Using getline to input the full sentence instead of only one word
-
-    // For loop for entering choices
-    for (int i = 0; i < 4; i++)
-    {
-        char option;
-        cout << "Please enter choice " << i + 1 << endl;
-        getline(cin, questiontype[index].questionAnswer[i].choiceText);
-        cin.ignore();
-        // To ignore the extra character added by the 'enter key'
-
-        questiontype[index].questionAnswer[i].isCorrect = false;
-
-        do
-        {
-            cout << "T/F? (any true will automatically set all the rest to false!) \n";
-            cin >> option;
-            cin.ignore();
-            // Same thing here
-            if (option == 'F' || option == 'f')
-            {
-                questiontype[index].questionAnswer[i].isCorrect = false;
-                break;
-            }
-            else if (option == 'T' || option == 't')
-            {
-                questiontype[index].questionAnswer[i].isCorrect = true;
-                i = 4;
-                // to exit the loop immediately
-                break;
-            }
-            else
-                cout << "Error! Please enter a valid choice! \n";
-        } while (true);
-    }
-    index++;
-}
-// a function for the teacher to view their students grades
-void ViewStudentGrades(const string &ExamFileName)
-{
-	string grades;
-	ifstream GradeFile;
-
-	GradeFile.open(ExamFileName+".txt", ios::in);       // opens the file 
-	if (!GradeFile.is_open())
-	{
-		cout << "Failed to open the file." << endl;
-        return;                                       // exits function if the file failed to open
-	}
-	else
-	{
-		cout << "\t Student Grades in the " << ExamFileName << "\t" << endl;
-		cout << "------------------------------------------------------" << endl;
-		while (getline(GradeFile, grades))           // reads the file line by line
-		{                 
-			cout << "\t" << grades << "\t" << endl;
-		}
-		GradeFile.close();
-	}
-}
-// a function for the students to view the grades of a specific subject
-void ViewSubjectGrades(const string& subject, int ID)
+// A function for the teacher to view their students grades
+void ViewStudentGrades(string& ExamFileName)
 {
     string grades;
     ifstream GradeFile;
-    bool SDfound = false;
-    for (int i = 0; i < 10; i++)
+    bool FileOpened = false;
+
+    do  // this loop allows the teacher to re enter the exam name in case they've entered it wrong
+    {
+        GradeFile.open(ExamFileName + " Grades.txt", ios::in); // opens the file 
+        if (!GradeFile.is_open())
+        {
+            char ans;
+            cout << "Failed to open the file." << endl;
+            cout << "Do you want to try again? (y/n): ";
+            cin >> ans;
+            switch (ans)
+            {
+            case 'Y':
+            case 'y':
+                cout << "Enter the name of the exam you want to see the grades of: ";
+                cin >> ExamFileName;
+                continue;
+            case 'N':
+            case 'n':
+                return;  // exits the function if the teacher doesn't want to retry, will later be replace with the teacher menu function
+            default:
+                cout << "Invalid answer! Please enter either y/n." << endl;
+                cin >> ans;
+                if (ans == 'Y' || ans == 'y')
+                    continue;
+                else if (ans == 'N' || ans == 'n')
+                    return;  // exits the function if the teacher doesn't want to retry, will later be replace with the teacher menu function
+            }
+        }
+        else
+        {
+            FileOpened = true;
+        }
+    } while (!FileOpened);
+
+    cout << "\t\t\t\t" << ExamFileName << endl;
+    cout << "------------------------------------------------------" << endl;
+    while (getline(GradeFile, grades)) // reads the file line by line
+    {
+        cout << grades << endl;
+    }
+    GradeFile.close();
+    // teacher menu
+}
+// A function for the students to view the grades of a specific subject
+void ViewCourseGrades(int ID, string& CourseCode)
+{
+        // displays the grades to the student
+    bool StudentFound = false;
+    bool CourseFound = false;
+    string grades;  // saves the grades so it would be easier to put it in a file
+    for (int i = 0; i < 10 && !StudentFound; i++)  // searches for the student, & once they're found the loop is exited 
     {
         if (arrSD[i].ID == ID)
         {
-            SDfound = true;
-            string ID_str = to_string(ID);   // converts the ID into string for the filename
-            GradeFile.open(subject + " Grades for Student no.: " + ID_str + ".txt", ios::in);     // opens the file 
-            if (!GradeFile.is_open())
+            StudentFound = true;
+            for (int j = 0; j < 5 && !CourseFound; j++)  // searches for the course code, & once they're found the loop is exited 
             {
-                cout << "Failed to open the file. (Check the spelling of the subject entered)" << endl;
-                return;                                         // exits function if the file failed to open
-            }
-            else
-            {
-                cout << "\t" << "\t" << "\t" << "\t" << subject << " Grades\t" << endl;
-                cout << "-----------------------------------------------------------------------------------------" << endl;
-                while (getline(GradeFile, grades))           // reads the file line by line
+                if (arrSD[i].arrSJ[j].CourseCode == CourseCode)
                 {
-                    cout << "\t" << grades;
+                    CourseFound = true;
+                    cout << "\t\t\t\t"<< CourseCode<<" Grades for Student ID no.: " << ID  << endl;
+                    cout << "---------------------------------------------------------------------" << endl;
+                    for (int k = 0; k < 10; k++)
+                    {
+                        if (!arrSD[i].arrSJ[j].grades[k].empty() && arrSD[i].arrSJ[j].grades[k] != "garbage")  // doesn't print any empty or garbage values
+                        {
+                            cout << "Grade " << k + 1 << ": " << arrSD[i].arrSJ[j].grades[k] << endl;
+                            grades += "Grade " + to_string(k + 1) + ": " + arrSD[i].arrSJ[j].grades[k] << endl;  // to_string converts the number into string
+                        }
+                    }
+                    return;  // exits the function after printing the grades, will later be replace with the student menu function
                 }
-                GradeFile.close();
-                return;          // exit the function after printing the grades
             }
         }
     }
-    if (!SDfound)
+    if (!StudentFound)
     {
-        cout << "Invalid or Incorrect ID." << endl;
+        cout << "Invalid ID! Please re-enter your information for confirmation." << endl;
+        cout << "ID: ";
+        cin >> ID;
+        cout << "Course code: ";
+        cin >> CourseCode;
+        ViewCourseGrades(ID, CourseCode);
     }
+    else if (!CourseFound)
+    {
+        cout << "Invalid course code! Please re-enter your information for confirmation." << endl;
+        cout << "ID: ";
+        cin >> ID;
+        cout << "Course code: ";
+        cin >> CourseCode;
+        ViewCourseGrades(ID,CourseCode);
+    }
+    SaveCourseGrades(ID, CourseCode, grades);
+    // student menu function
 }
-// a function for the students to view all their grades on all the exams they've part took in
+// A function to save all the grades of a specific course after displaying them to the student
+void SaveCourseGrades(int ID, string& CourseCode, string& content)
+{
+    ofstream GradeFile;
+    string ID_str = to_string(ID);   // converts the ID into string for the filename
+    GradeFile.open(CourseCode + "Grades for Student ID no.: " + ID_str + ".txt", ios::out | ios::app);  // "app" allows the grades to be added to the same file
+    while (!GradeFile.is_open())
+    {
+        char ans;
+        cout << "Failed to open a file to save the grades." << endl;
+        cout << "Do you want the program to try again?(y/n): ";
+        cin >> ans;
+        switch (ans)
+        {
+        case 'Y':
+        case'y':
+            break;
+        case'N':
+        case'n':
+            return;  // exits the function , will later be replace with the student menu function
+        default:
+            cout << "Invalid answer! Please enter either y/n." << endl;
+            cin >> ans;
+            if (ans == 'Y' || ans == 'y')
+                break;
+            else if (ans == 'N' || ans == 'n')
+                return;  // exits the function, will later be replace with the teacher menu function
+        }
+    }
+    GradeFile << "\t\t\t\t" << CourseCode << " Grades" << endl;
+    GradeFile << "------------------------------------------------------" << endl;
+    GradeFile << content;
+    cout << "Yoour grades have been saved to the file: " << CourseCode + "Grades for Student ID no.: " + ID_str + ".txt" << endl;
+    GradeFile.close();
+    // student menu
+}
+// A function for the students to view all their grades on all the exams they've part took in
 void ViewAllMyGrades(int ID)
 {
-    string grades;
-    ifstream GradeFile;
-    bool SDfound = false;
-    for (int i = 0; i < 10; i++)
+    bool StudentFound = false;
+    string grades;  // saves the grades so it would be easier to put it in a file
+
+    for (int i = 0; i < 10 && !StudentFound; i++)  // searches for the student, & once they're found the loop is exited 
     {
         if (arrSD[i].ID == ID)
         {
-            SDfound = true;
-            string ID_str = to_string(ID);   // converts the ID into string for the filename
-            GradeFile.open("Grades for Student no.: " + ID_str + ".txt", ios::in);     // opens the file 
-            if (!GradeFile.is_open())
+            StudentFound = true;
+            cout << "\t\t\t\t Grades for Student ID no.: " << ID << endl;
+            cout << "---------------------------------------------------------------------" << endl;
+            for (int j = 0; j < 5; j++)  // cycles through each course
             {
-                cout << "Failed to open the file. (Check the spelling of the subject entered)" << endl;
-                return;                                         // exits function if the file failed to open
-            }
-            else
-            {
-                cout << "\t\t\t\tYour Grades\t" << endl;
-                cout << "-------------------------------------------------------------------------------------------------------------" << endl;
-                while (getline(GradeFile, grades))           // reads the file line by line
+                cout << "Course code: " << arrSD[i].arrSJ[j] << endl;
+                cout << "--------------------------------------------" << endl;
+                for (int k = 0; k < 10; k++)
                 {
-                    cout << "\t" << grades;
+                    if (!arrSD[i].arrSJ[j].grades[k].empty() && arrSD[i].arrSJ[j].grades[k] != "garbage")  // doesn't print any empty or garbage values
+                    {
+                        cout << "Grade " << k + 1 << ": " << arrSD[i].arrSJ[j].grades[k] << endl;
+                        grades += "Grade " << to_string(k + 1) << ": " << arrSD[i].arrSJ[j].grades[k] << endl;  // to_string converts the number into string
+                    }
                 }
-                GradeFile.close();
-                return;          // exit the function after printing the grades
+                return;  // exits the function after printing the grades, will later be replace with the student menu function
             }
         }
     }
-    if (!SDfound)
+    if (!StudentFound)
     {
-        cout << "Invalid or Incorrect ID." << endl;
+        cout << "Invalid ID! Please re-enter your information for confirmation." << endl;
+        cout << "ID: ";
+        cin >> ID;
+        ViewAllMyGrades(ID);
     }
+    SaveAlMyGrades(ID, grades);
+}
+// A function to save all the grades in a file after displaying them to the student
+void SaveAlMyGrades(int ID,string& content)
+{
+    ofstream GradeFile;
+    string ID_str = to_string(ID);   // converts the ID into string for the filename
+    GradeFile.open("Grades for Student ID no.: " + to_string(ID) + ".txt", ios::out | ios::app);  // "app" allows the grades to be added to the same file
+    while (!GradeFile.is_open())
+    {
+        char ans;
+        cout << "Failed to open a file to save the grades." << endl;
+        cout << "Do you want the program to try again?(y/n): ";
+        cin >> ans;
+        switch (ans)
+        {
+        case 'Y':
+        case'y':
+            break;
+        case'N':
+        case'n':
+            return;  // exits the function , will later be replace with the student menu function
+        default:
+            cout << "Invalid answer! Please enter either y/n." << endl;
+            cin >> ans;
+            if (ans == 'Y' || ans == 'y')
+                break;
+            else if (ans == 'N' || ans == 'n')
+                return;  // exits the function, will later be replace with the teacher menu function
+        }
+    }
+    GradeFile << "\t\t\t\t Grades for Student ID no.: " << ID << endl;
+    GradeFile << "---------------------------------------------------------------------" << endl;
+    GradeFile << content;
+    cout << "Your grades have been saved to the file: Grades for Student ID no.: " << to_string(ID) + ".txt" << endl;
+    GradeFile.close();
+    // student menu function
 }
