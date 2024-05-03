@@ -5,7 +5,7 @@ VisualStudioVersion = 17.9.34723.18
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Online Exam System", "Online Exam System.vcxproj", "{C1EF983D-859E-4278-B688-A30D3FDBB776}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Project12", "..\..\..\source\repos\Project12\Project12\Project12.vcxproj", "{9EA88874-081B-4168-B2B6-5512DEC84FF6}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Project12", "..\..\repos\Project12\Project12\Project12.vcxproj", "{9EA88874-081B-4168-B2B6-5512DEC84FF6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
