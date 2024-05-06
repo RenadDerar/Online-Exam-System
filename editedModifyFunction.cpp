@@ -3,37 +3,6 @@ void displayQuestion(question questiontype[]); // function to display the questi
 
 void modifyexam(question questiontype[]);
 
-int main() {
-
-
-    for (int i = 0; i < 3; i++)
-    {
-        getline(cin, chemistryQuestionList[i].questionText);
-
-
-        for (int j = 0; j < 4; j++)
-        {
-            getline(cin, chemistryQuestionList[i].questionAnswer[j].choiceText);
-
-        }
-    }
-    modifyexam(chemistryQuestionList);
-    /*/for (int i = 0; i < 10; i++)
-    {
-        cout << chemistryQuestionList[i].questionText;
-
-
-        for (int j = 0; j < 4; j++)
-        {
-            cout << chemistryQuestionList[i].questionAnswer[j].choiceText;
-}
-
-        }/*/
-    displayQuestion(chemistryQuestionList);
-    return 0;
-
-}
-
 void modifyexam(question questiontype[])
 {
     int answer;
@@ -159,14 +128,14 @@ void displayQuestion(question questiontype[]) {
 
     for (int i = 0; i < 10; i++)
     {
-        // Check if questionText is not empty or garbage
+        // Check if questionText is not empty
         if (!chemistryQuestionList[i].questionText.empty()) {
 
             cout << i + 1 << "_ " << chemistryQuestionList[i].questionText << " ?" << endl;
 
             for (int j = 0; j < 4; j++)
             {
-                // Check if choiceText is not empty or garbage
+                // Check if choiceText is not empty
                 if (!chemistryQuestionList[i].questionAnswer[j].choiceText.empty())
                 {
 
