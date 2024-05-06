@@ -1,5 +1,5 @@
 
-void displayQuestion(question questiontype[]); // function to display the questions it takes the number of questions enterd by the teacher
+void displayQuestion(question questiontype[]); 
 
 void modifyexam(question questiontype[]);
 
