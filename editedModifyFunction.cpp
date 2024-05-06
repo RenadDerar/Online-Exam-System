@@ -129,17 +129,17 @@ void displayQuestion(question questiontype[]) {
     for (int i = 0; i < 10; i++)
     {
         // Check if questionText is not empty
-        if (!chemistryQuestionList[i].questionText.empty()) {
+        if (!questiontype[i].questionText.empty()) {
 
-            cout << i + 1 << "_ " << chemistryQuestionList[i].questionText << " ?" << endl;
+            cout << i + 1 << "_ " << questiontype[i].questionText << " ?" << endl;
 
             for (int j = 0; j < 4; j++)
             {
                 // Check if choiceText is not empty
-                if (!chemistryQuestionList[i].questionAnswer[j].choiceText.empty())
+                if (!questiontype[i].questionAnswer[j].choiceText.empty())
                 {
 
-                    cout << j + 1 << "_ " << chemistryQuestionList[i].questionAnswer[j].choiceText << " ." << endl;
+                    cout << j + 1 << "_ " << questiontype[i].questionAnswer[j].choiceText << " ." << endl;
                 }
 
 
