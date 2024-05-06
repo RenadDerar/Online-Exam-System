@@ -40,7 +40,7 @@ void modifyexam(question questiontype[])
                 questiontype[i - 1] = questiontype[i];
             }
 
-            // to stop repeating the last element
+            //  to stop repeating the last element
             for (int i = 0; i < 9; i++) {
                 for (int j = i + 1; j < 10; j++) {
                     
